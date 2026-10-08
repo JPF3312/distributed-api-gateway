@@ -1,0 +1,32 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: gateway_redis
+    ports:
+      - "6379:6379"
+
+  service-a1:
+    image: node:20-alpine
+    container_name: service_a1
+    working_dir: /app
+    volumes:
+      - ./mock-service.js:/app/mock-service.js
+    environment:
+      PORT: 5001
+      SERVICE_NAME: Service-A-Instance-1
+    command: node mock-service.js
+    ports:
+      - "5001:5001"
+
+  service-a2:
+    image: node:20-alpine
+    container_name: service_a2
+    working_dir: /app
+    volumes:
+      - ./mock-service.js:/app/mock-service.js
+    environment:
+      PORT: 5002
+      SERVICE_NAME: Service-A-Instance-2
+    command: node mock-service.js
+    ports:
+      - "5002:5002"
